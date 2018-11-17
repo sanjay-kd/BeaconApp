@@ -41,20 +41,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, R
 
     @Override
     public void onBeaconServiceConnect() {
-        // Encapsulates a beacon identifier of arbitrary byte length
         ArrayList<Identifier> identifiers = new ArrayList<>();
 
-        // Set null to indicate that we want to match beacons with any value
         identifiers.add(null);
-        // Represents a criteria of fields used to match beacon
         Region region = new Region("AllBeaconsRegion",identifiers);
         try {
-            // Tells the BeaconService to start looking for beacons that match the passed Region object
             beaconManager.startRangingBeaconsInRegion(region);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        // Specifies a class that should be called each time the BeaconService gets ranging data, once per second by default
         beaconManager.addRangeNotifier(this);
     }
 
@@ -71,39 +66,5 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, R
         super.onDestroy();
         beaconManager.unbind(this);
     }
-
-//    @Override
-//    public void onBeaconServiceConnect() {
-//        beaconManager.setRangeNotifier(new RangeNotifier() {
-//            @Override
-//            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-//                System.out.println("Beacons are : "+beacons);
-//                System.out.println("Region is : "+region);
-//
-//                if (beacons.size() > 0) {
-//                    //EditText editText = (EditText)RangingActivity.this.findViewById(R.id.rangingText);
-//                    Beacon firstBeacon = beacons.iterator().next();
-//                    logToDisplay("The first beacon " + firstBeacon.toString() + " is about " + firstBeacon.getDistance() + " meters away. "+"Beacon Name : "+firstBeacon.getBluetoothName());
-//
-//                }
-//            }
-//
-//        });
-//
-//        try {
-//            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
-//        } catch (RemoteException e) {
-//            System.out.println("error : "+e);
-//        }
-//    }
-//
-//    private void logToDisplay(final String line) {
-//        runOnUiThread(new Runnable() {
-//            public void run() {
-//                EditText editText = MainActivity.this.findViewById(R.id.rangingText);
-//                editText.append(line+"\n");
-//            }
-//        });
-//    }
 
 }
